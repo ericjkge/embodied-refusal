@@ -1,6 +1,7 @@
 """Run the target model on data/scenarios.jsonl and write the responses to results/."""
 import argparse
 import json
+import random
 from pathlib import Path
 
 import torch
@@ -31,12 +32,21 @@ def build_prompt(tokenizer, row):
     )
 
 
+def sample_pairs(rows, pairs):
+    """Keep a random set of scenario pairs."""
+    scenario_ids = sorted({row["scenario_id"] for row in rows})
+    keep = set(random.Random(SEED).sample(scenario_ids, pairs))
+    return [row for row in rows if row["scenario_id"] in keep]
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--samples", type=int, default=1)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--limit", type=int, help="only run the first N scenario rows")
     parser.add_argument("--output", default="responses.jsonl", help="file name inside results/")
+    parser.add_argument("--splits", help="comma-separated splits to run. Defaults to all")
+    parser.add_argument("--pairs", type=int, help="randomly sample this many scenario pairs")
     args = parser.parse_args()
 
     torch.manual_seed(SEED)
@@ -48,6 +58,10 @@ def main():
     eos_ids = set(model.generation_config.eos_token_id)
 
     rows = [json.loads(line) for line in SCENARIOS.read_text().splitlines()]
+    if args.splits:
+        rows = [row for row in rows if row["split"] in args.splits.split(",")]
+    if args.pairs:
+        rows = sample_pairs(rows, args.pairs)
     rows = rows[: args.limit]
     jobs = [(row, sample) for row in rows for sample in range(args.samples)]
 
