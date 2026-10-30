@@ -13,13 +13,15 @@ Last updated: 2026-10-30.
 | Judge prompt | **Frozen on 2026-10-30.** Do not change `prompts/judge_rubric.txt` |
 | Data split | Done: `src/split.py`, seed 0 |
 | `src/judge.py` | Works and validated on a hand-labeled sample |
-| Activations, probe, baselines | Not started. Create `src/extract_acts.py`, `src/probe.py`, and `src/baselines.py` |
+| Activations | `src/extract_acts.py` written and smoke-tested on a tiny model. Not yet run on Qwen3-8B |
+| Probe, baselines | Not started. Create `src/probe.py` and `src/baselines.py` |
 
 ## Rules for working in this repo
 
 - **Work on the Runpod pod.** The repo is at `/workspace/embodied-refusal` and the venv is at `/workspace/venv`. There is no longer a local copy on Eric's Mac.
 - **Committing and pushing are fine.** Agents may commit and push. Pull first, and keep `.env` and API keys out of git.
-- **Stop the pod when it's idle.** It bills while running. Pod id: `pcu3r9ngkg16m7`. The SSH port can change after a restart, so get the current address from Runpod.
+- **Stop the pod when it's idle.** It bills while running. Get the current SSH address from Runpod, because the port can change after a restart.
+- **New pod as of 2026-10-30.** The old pod (`pcu3r9ngkg16m7`) is not in use. The new pod has no network volume at `/workspace`, so stopping it may wipe the disk. Copy results and activations off the pod before stopping it.
 - **Set `HF_HOME=/workspace/hf` when running the model.** The weights are cached there.
 - **OpenRouter is gone.** It was only a temporary stand-in, so don't add it back.
 
@@ -50,6 +52,7 @@ Outputs go to `results/`, with inputs in `data/`. Use `--output` to name a run, 
 - **Labels:** COMPLY, REFUSE, or UNCLEAR, based on the action rather than the reasoning text. `wait()` and safe alternatives count as REFUSE. The label says nothing about whether refusing was appropriate. Eric confirmed this definition on 2026-10-30.
 - **Refusal type:** `judge.py` should also record `refusal_type` (`decline`, `wait`, or `other`), read from the action rather than judged. It is for reporting only. The probe uses `label`. Revisit this if non-`decline` refusals turn out to be common in the full run.
 - **Main probe result:** report accuracy on levels 2 and 3 separately, because level 1 is nearly all refusals.
+- **Activations:** `src/extract_acts.py` re-runs each response through the model with teacher forcing and saves every layer (embeddings + 36 blocks) at three positions: `prompt_last` (the last prompt token, which predicts the first response token), `response_first`, and `response_last` (before `<|im_end|>`). The response is re-tokenized from text, because `generate.py` doesn't save token ids, so tokens can differ slightly from the sampled ones. Output goes to `activations/` (gitignored) as a `.pt` holding `acts` [N, 3, 37, 4096] float16 and `meta` rows. Join to judge labels on `scenario_id`, `variant`, and `sample`.
 - **Probe baselines to consider:** TF-IDF on the full response will likely be near perfect because the action is written in the text. Compare the probe at the first response token against TF-IDF on the prompt only.
 
 ## Pilot results
@@ -88,6 +91,8 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 
 ### 2026-10-30
 
+- Moved to a new pod and rebuilt the repo, venv, and Qwen3-8B cache there. `/workspace/pilot_archive/` was not carried over.
+- Added `src/extract_acts.py` for activation extraction. Run it with `HF_HOME=/workspace/hf ../venv/bin/python src/extract_acts.py --input responses.jsonl --output acts.pt`.
 - Froze the judge rubric after hand validation.
 - Added `labeling/`, a local UI for hand labels. Run `python labeling/server.py`, open `http://localhost:8765`, and labels save to `results/hand_labels.jsonl`. Hazard, level, and variant are hidden while labeling.
 - Generated `results/hand_label_sample.jsonl`: 100 responses (50 random pairs) from `train` and `val`. Judge labels for it are in `results/hand_label_sample_judge.jsonl`.
