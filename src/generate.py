@@ -1,71 +1,87 @@
-"""Run the target model on data/scenarios.jsonl and write data/responses.jsonl."""
+"""Run the target model on data/scenarios.jsonl and write the responses to results/."""
 import argparse
 import json
-import os
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from dotenv import load_dotenv
-from openai import OpenAI
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 ROOT = Path(__file__).parent.parent
 SCENARIOS = ROOT / "data" / "scenarios.jsonl"
-RESPONSES = ROOT / "data" / "responses.jsonl"
+RESULTS = ROOT / "results"
 SYSTEM_PROMPT = (ROOT / "prompts" / "system_prompt.txt").read_text().strip()
 
-# Qwen3-8B isn't on OpenRouter, so the pilot uses the closest Qwen3 size.
-MODEL = "qwen/qwen3-14b"
+MODEL = "Qwen/Qwen3-8B"
+REVISION = "b968826d9c46dd6066d109eabc6255188de91218"
 TEMPERATURE = 0.7
-MAX_TOKENS = 256
+MAX_NEW_TOKENS = 256
+SEED = 0
 
 
-def generate(client, model, row, sample):
+def build_prompt(tokenizer, row):
     user_prompt = f"Scene: {row['scene']}\nOperator instruction: {row['instruction']}"
-    completion = client.chat.completions.create(
-        model=model,
-        messages=[
-            # OpenRouter ignores reasoning.enabled=False for Qwen3; /no_think works.
-            {"role": "system", "content": SYSTEM_PROMPT + "\n/no_think"},
+    return tokenizer.apply_chat_template(
+        [
+            {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
-        temperature=TEMPERATURE,
-        max_tokens=MAX_TOKENS,
+        tokenize=False,
+        add_generation_prompt=True,
+        enable_thinking=False,
     )
-    return {
-        **row,
-        "sample": sample,
-        "model": model,
-        "temperature": TEMPERATURE,
-        "provider": getattr(completion, "provider", None),
-        "finish_reason": completion.choices[0].finish_reason,
-        "response": completion.choices[0].message.content,
-    }
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default=MODEL)
     parser.add_argument("--samples", type=int, default=1)
+    parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--limit", type=int, help="only run the first N scenario rows")
+    parser.add_argument("--output", default="responses.jsonl", help="file name inside results/")
     args = parser.parse_args()
 
-    load_dotenv(ROOT / ".env")
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=os.environ["OPENROUTER_KEY"],
+    torch.manual_seed(SEED)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL, revision=REVISION, padding_side="left")
+    model = AutoModelForCausalLM.from_pretrained(
+        MODEL, revision=REVISION, dtype=torch.float16, device_map="auto"
     )
+    model.eval()
+    eos_ids = set(model.generation_config.eos_token_id)
 
     rows = [json.loads(line) for line in SCENARIOS.read_text().splitlines()]
     rows = rows[: args.limit]
     jobs = [(row, sample) for row in rows for sample in range(args.samples)]
 
-    with ThreadPoolExecutor(max_workers=8) as pool:
-        results = list(pool.map(lambda job: generate(client, args.model, *job), jobs))
-
-    with RESPONSES.open("w") as f:
-        for result in results:
-            f.write(json.dumps(result) + "\n")
-    print(f"Wrote {len(results)} responses to {RESPONSES}")
+    RESULTS.mkdir(exist_ok=True)
+    output = RESULTS / args.output
+    with output.open("w") as f:
+        for start in range(0, len(jobs), args.batch_size):
+            batch = jobs[start : start + args.batch_size]
+            prompts = [build_prompt(tokenizer, row) for row, _ in batch]
+            inputs = tokenizer(prompts, return_tensors="pt", padding=True).to(model.device)
+            with torch.no_grad():
+                outputs = model.generate(
+                    **inputs,
+                    do_sample=True,
+                    temperature=TEMPERATURE,
+                    top_p=1.0,
+                    top_k=0,
+                    max_new_tokens=MAX_NEW_TOKENS,
+                )
+            new_tokens = outputs[:, inputs["input_ids"].shape[1] :]
+            for (row, sample), tokens in zip(batch, new_tokens):
+                f.write(json.dumps({
+                    **row,
+                    "sample": sample,
+                    "model": MODEL,
+                    "revision": REVISION,
+                    "temperature": TEMPERATURE,
+                    "seed": SEED,
+                    "finish_reason": "stop" if eos_ids & set(tokens.tolist()) else "length",
+                    "response": tokenizer.decode(tokens, skip_special_tokens=True).strip(),
+                }) + "\n")
+            f.flush()
+            print(f"{start + len(batch)}/{len(jobs)}", flush=True)
+    print(f"Wrote {len(jobs)} responses to {output}")
 
 
 if __name__ == "__main__":
