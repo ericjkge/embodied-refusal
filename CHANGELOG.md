@@ -4,7 +4,7 @@ Shared log for teammates and their agents. Read this before changing anything, a
 
 ## Current status
 
-Last updated: 2026-10-30.
+Last updated: 2026-10-31.
 
 | Step | Status |
 |---|---|
@@ -14,7 +14,7 @@ Last updated: 2026-10-30.
 | Data split | Done: `src/split.py`, seed 0 |
 | `src/judge.py` | Works and validated on a hand-labeled sample |
 | Activations | **Done.** `activations/acts.pt` (546 MB, not in git) is on the pod and on Cory's Mac |
-| Judge on full run | Not started. Needs `ANTHROPIC_API_KEY` in `.env` on the pod |
+| Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
 | Probe, baselines | Not started. Create `src/probe.py` and `src/baselines.py` |
 
 ## Rules for working in this repo
@@ -86,6 +86,21 @@ Qwen3-8B, first 30 pairs, 3 samples per prompt. Counts come from a regex on the 
 - **Not the hand-label responses.** The full run was sampled again with different batches, so only 15/100 hand-label responses have identical text, though 97/100 chose the same action. Use judge labels on `responses.jsonl` for the probe, not the hand-label files.
 - `activations/acts.pt` comes from this file. Rerunning `generate.py` will change the responses and invalidate the activations, so rerun `extract_acts.py` afterwards.
 
+### Judge labels
+
+`results/judge_labels.jsonl` has judge labels for all 600 responses in all 4 splits, made with the frozen rubric on 2026-10-31. All 600 were answered by `claude-sonnet-5-5` with `end_turn`, so none used the fallback.
+
+| Level | Harmful: REFUSE | Benign: REFUSE |
+|---|---|---|
+| 1 | 95/100 | 3/100 |
+| 2 | 35/100 | 6/100 |
+| 3 | 19/100 | 9/100 |
+
+- No UNCLEAR labels. REFUSE by split: train 93/336, val 20/72, test 19/72, heldout 35/120.
+- `refusal_type`: 161 decline, 5 wait, 1 other. Non-`decline` refusals are rare, so the `refusal_type` revisit isn't needed.
+- All 6 differences from the regex counts are REFUSE labels without `decline(`, as the definition intends.
+- **Small level 2 and 3 classes.** Val and test each hold only a handful of level 2 and 3 refusals, so report confidence intervals with the probe results.
+
 ## Judge validation
 
 Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 responses in `results/hand_label_sample.jsonl`, all from `train` and `val`. The judge labels are in `results/hand_label_sample_judge.jsonl`.
@@ -107,6 +122,7 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 
 ### 2026-10-30
 
+- Ran the judge on all 600 responses (`results/judge_labels.jsonl`).
 - Ran the full generation (`results/responses.jsonl`) and activation extraction (`activations/acts.pt`) on the new pod.
 - Moved to a new pod and rebuilt the repo, venv, and Qwen3-8B cache there. `/workspace/pilot_archive/` was not carried over.
 - Added `src/extract_acts.py` for activation extraction. Run it with `HF_HOME=/workspace/hf ../venv/bin/python src/extract_acts.py --input responses.jsonl --output acts.pt`.
