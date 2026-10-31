@@ -15,7 +15,8 @@ Last updated: 2026-10-31.
 | `src/judge.py` | Works and validated on a hand-labeled sample |
 | Activations | **Done.** `activations/acts.pt` (546 MB, not in git) is on the pod and on Cory's Mac |
 | Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
-| Probe, baselines | Not started. Create `src/probe.py` and `src/baselines.py` |
+| Probe | Development on train/val done (`src/probe.py`). The `--final` test/heldout run has **not** been done |
+| Baselines | Not started. Create `src/baselines.py` |
 
 ## Rules for working in this repo
 
@@ -56,6 +57,7 @@ Outputs go to `results/`, with inputs in `data/`. Use `--output` to name a run, 
 - **Refusal type:** `judge.py` should also record `refusal_type` (`decline`, `wait`, or `other`), read from the action rather than judged. It is for reporting only. The probe uses `label`. Revisit this if non-`decline` refusals turn out to be common in the full run.
 - **Main probe result:** report accuracy on levels 2 and 3 separately, because level 1 is nearly all refusals.
 - **Activations:** `src/extract_acts.py` re-runs each response through the model with teacher forcing and saves every layer (embeddings + 36 blocks) at three positions: `prompt_last` (the last prompt token, which predicts the first response token), `response_first`, and `response_last` (before `<|im_end|>`). The response is re-tokenized from text, because `generate.py` doesn't save token ids, so tokens can differ slightly from the sampled ones. Output goes to `activations/` (gitignored) as a `.pt` holding `acts` [N, 3, 37, 4096] float16 (positions × layers × hidden) and `meta` rows in the same order as the input file. Join to judge labels on `scenario_id`, `variant`, and `sample`.
+- **Probe:** `src/probe.py` uses standardized L2 logistic regression on one position and one layer, trained on `train`. C is chosen from 1e-4 to 1 by 5-fold `GroupKFold` on `group_id` with AUROC. The layer is chosen by val AUROC. The main probe is `prompt_last`, because `response_last` sees the written action. `--final` refits on train and scores val, test, and heldout into `results/probe_final.json`. Run it once, after development is finished.
 - **Probe baselines to consider:** TF-IDF on the full response will likely be near perfect because the action is written in the text. Compare the probe at the first response token against TF-IDF on the prompt only.
 
 ## Pilot results
@@ -101,6 +103,21 @@ Qwen3-8B, first 30 pairs, 3 samples per prompt. Counts come from a regex on the 
 - All 6 differences from the regex counts are REFUSE labels without `decline(`, as the definition intends.
 - **Small level 2 and 3 classes.** Val and test each hold only a handful of level 2 and 3 refusals, so report confidence intervals with the probe results.
 
+## Probe development (val only)
+
+Run on 2026-10-31 on Cory's Mac (CPU, about 3 minutes). Per-layer results are in `results/probe_val.jsonl`. Val has 72 responses and 20 REFUSE (12 at level 1, 4 at level 2, 4 at level 3).
+
+| Position | Val AUROC by layer (0, 8, 16, 24, 32, 36) | Best layer |
+|---|---|---|
+| `prompt_last` | 0.50, 0.80, 0.86, 0.98, 0.98, 0.98 | 29 (AUROC 0.987, acc 0.93) |
+| `response_first` | 0.50, 0.82, 0.94, 0.98, 0.98, 0.98 | 22 (AUROC 0.985) |
+| `response_last` | 0.97, 1.00 from layer 1 on | Sanity check only |
+
+- **`response_last` is trivial.** It reaches 0.97 AUROC on the token embedding (layer 0) alone, because the final token differs between `decline(...)` and other actions.
+- **Levels 2 and 3 (val, 48 responses, 8 REFUSE):** the `prompt_last` layer 29 probe has AUROC 0.956. Predicting REFUSE for every harmful variant gives 0.725. Within the harmful variants alone the probe has 0.99, so it predicts which harmful prompts get refused, not just which prompts are harmful. With only 8 positives, treat this as a hint.
+- **Accuracy is not informative at levels 2 and 3.** Always predicting COMPLY scores 0.83 at each level on val. The probe scores 0.96 at level 2 and 0.83 at level 3. Report AUROC and balanced accuracy with CIs.
+- **Layer choice is flat** from about layer 20 on (val AUROC 0.98 to 0.99), so the chosen layer 29 isn't special.
+
 ## Judge validation
 
 Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 responses in `results/hand_label_sample.jsonl`, all from `train` and `val`. The judge labels are in `results/hand_label_sample_judge.jsonl`.
@@ -122,6 +139,7 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 
 ### 2026-10-30
 
+- Added `src/probe.py` and ran development on train/val (`results/probe_val.jsonl`). Added `scikit-learn` to `requirements.txt`.
 - Ran the judge on all 600 responses (`results/judge_labels.jsonl`).
 - Ran the full generation (`results/responses.jsonl`) and activation extraction (`activations/acts.pt`) on the new pod.
 - Moved to a new pod and rebuilt the repo, venv, and Qwen3-8B cache there. `/workspace/pilot_archive/` was not carried over.

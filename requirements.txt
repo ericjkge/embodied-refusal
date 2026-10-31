@@ -3,3 +3,4 @@ transformers==5.22.1
 accelerate
 anthropic
 python-dotenv
+scikit-learn
