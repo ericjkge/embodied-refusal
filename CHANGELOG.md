@@ -16,7 +16,7 @@ Last updated: 2026-10-31.
 | Activations | **Done.** `activations/acts.pt` (546 MB, not in git) is on the pod and on Cory's Mac |
 | Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
 | Probe | Development on train/val done (`src/probe.py`). The `--final` test/heldout run has **not** been done |
-| Baselines | Not started. Create `src/baselines.py` |
+| Baselines | Development on train/val done (`src/baselines.py`). The `--final` test/heldout run has **not** been done. Run it alongside `probe.py --final` |
 
 ## Rules for working in this repo
 
@@ -118,6 +118,25 @@ Run on 2026-10-31 on Cory's Mac (CPU, about 3 minutes). Per-layer results are in
 - **Accuracy is not informative at levels 2 and 3.** Always predicting COMPLY scores 0.83 at each level on val. The probe scores 0.96 at level 2 and 0.83 at level 3. Report AUROC and balanced accuracy with CIs.
 - **Layer choice is flat** from about layer 20 on (val AUROC 0.98 to 0.99), so the chosen layer 29 isn't special.
 
+## Baseline development (val only)
+
+Run on 2026-10-31 on Anchal's Mac (CPU, about 1 minute). Full results, including confusion matrices, per-class precision and recall, and 95% CIs, are in `results/baselines_val.json`. CIs come from 1000 bootstrap resamples of whole `group_id`s, so twins stay together.
+
+| Baseline | Input | Val AUROC, all | Levels 2+3 | Harmful only | Balanced acc, all |
+|---|---|---|---|---|---|
+| `majority` | Nothing (always COMPLY) | 0.50 | 0.50 | 0.50 | 0.50 |
+| `harmful_variant` | Harmful/benign tag | 0.81 [0.73, 0.88] | 0.73 [0.54, 0.82] | 0.50 | 0.81 |
+| `tfidf_prompt` | Scene + instruction | 0.87 [0.78, 0.96] | 0.76 [0.59, 0.92] | 0.85 [0.72, 0.97] | 0.76 |
+| `tfidf_reasoning` | Reasoning, without the Action line | 1.00 | 1.00 | 1.00 | 0.98 |
+| `tfidf_response` | Full response | 1.00 | 1.00 | 1.00 | 1.00 |
+
+- **Main comparison is `tfidf_prompt` vs the `prompt_last` probe.** Both see only the prompt. On levels 2+3 the probe has 0.956 and `tfidf_prompt` has 0.76, and within harmful variants the probe has 0.99 and `tfidf_prompt` has 0.85. So the probe looks better than prompt wording, but the CIs are wide with 8 positives at levels 2+3.
+- **`tfidf_prompt` balanced accuracy is 0.53 at levels 2+3** at the 0.5 threshold, because it rarely predicts REFUSE there. Its AUROC shows that the ranking is still informative.
+- **The reasoning gives the answer away.** `tfidf_reasoning` is near perfect even without the Action line, because the reasoning states the decision ("I will decline"). Like `response_last`, it's a sanity check, not a fair comparison.
+- **Settings:** word 1–2-grams, `sublinear_tf`, L2 logistic regression, C chosen from 0.01 to 100 by 5-fold `GroupKFold` on `group_id` with AUROC, with TF-IDF refit inside each fold. Chosen C: 10 for `tfidf_prompt`, 100 (the top of the grid) for the two response baselines. These settings were fixed before seeing val and not tuned on it.
+- `harmful_variant` gives 0.725 at levels 2+3, matching the number in the probe section, which checks that both scripts read the data the same way.
+- `--final` writes `results/baselines_final.json`. Run it once, at the same time as `probe.py --final`.
+
 ## Judge validation
 
 Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 responses in `results/hand_label_sample.jsonl`, all from `train` and `val`. The judge labels are in `results/hand_label_sample_judge.jsonl`.
@@ -136,6 +155,10 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 - **Lightly reviewed prompts:** Eric skimmed the 300 pairs, and most have not been through the target model yet.
 
 ## History
+
+### 2026-10-31
+
+- Added `src/baselines.py` (majority, harmful variant, and TF-IDF on prompt, reasoning, and response) and ran development on train/val (`results/baselines_val.json`).
 
 ### 2026-10-30
 

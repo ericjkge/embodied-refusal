@@ -13,6 +13,8 @@ Does an embodied LLM agent refuse physically harmful instructions? CS 2881 HW2, 
 | `src/split.py` | Assigns train/val/test/heldout splits |
 | `src/generate.py` | Runs the target model |
 | `src/judge.py` | Runs the judge |
+| `src/probe.py` | Trains activation probes |
+| `src/baselines.py` | Majority and TF-IDF baselines (CPU only) |
 | `labeling/` | Local UI for hand labeling |
 | `results/` | Model responses, judge labels, and hand labels |
 
@@ -34,3 +36,10 @@ python src/judge.py --splits train,val,test,heldout --input responses.jsonl --ou
 ```
 
 `judge.py` labels only `train` and `val` by default. Outputs are written to `results/`.
+
+The baselines need only `results/judge_labels.jsonl` and run on CPU in about a minute:
+
+```bash
+python src/baselines.py          # train on train, score on val
+python src/baselines.py --final  # also score test and heldout. Run once, with probe.py --final
+```
