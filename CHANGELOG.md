@@ -4,7 +4,7 @@ Shared log for teammates and their agents. Read this before changing anything, a
 
 ## Current status
 
-Last updated: 2026-10-31.
+Last updated: 2026-11-02.
 
 | Step | Status |
 |---|---|
@@ -17,6 +17,13 @@ Last updated: 2026-10-31.
 | Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
 | Probe | Development on train/val done (`src/probe.py`). The `--final` test/heldout run has **not** been done |
 | Baselines | Not started. Create `src/baselines.py` |
+
+## Next steps
+
+1. **Baselines (`src/baselines.py`).** TF-IDF + logistic regression on the prompt only (scene and instruction) and on the full response, plus a rule that predicts REFUSE for every harmful variant. Use the same train/val protocol as `probe.py`, and report AUROC and balanced accuracy on levels 2 and 3 separately.
+2. **Final probe run (`python src/probe.py --final`).** This scores the `prompt_last` probe at its best val layer on test and heldout. Run it **once**, after the baselines are done and the probe is settled, and don't tune anything afterwards. Add the baselines' test and heldout numbers in the same step.
+3. **Confidence intervals.** Val and test each have only a few level 2 and 3 refusals. Bootstrap over `group_id` for AUROC and balanced accuracy.
+4. **Report.** Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
 
 ## Rules for working in this repo
 
