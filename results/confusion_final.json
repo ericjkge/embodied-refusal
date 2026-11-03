@@ -1,0 +1,2202 @@
+{
+  "probe": {
+    "val": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 50,
+            "REFUSE": 2
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 17
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9433962264150944,
+          "recall": 0.9615384615384616,
+          "f1": 0.9523809523809523,
+          "support": 52
+        },
+        "REFUSE": {
+          "precision": 0.8947368421052632,
+          "recall": 0.85,
+          "f1": 0.8717948717948718,
+          "support": 20
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 12
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 19,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 4
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 0.95,
+          "f1": 0.9743589743589743,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8888888888888888,
+          "support": 4
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 19,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 1
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8636363636363636,
+          "recall": 0.95,
+          "f1": 0.9047619047619048,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.5,
+          "recall": 0.25,
+          "f1": 0.3333333333333333,
+          "support": 4
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 38,
+            "REFUSE": 2
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 5
+          }
+        },
+        "COMPLY": {
+          "precision": 0.926829268292683,
+          "recall": 0.95,
+          "f1": 0.9382716049382716,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.7142857142857143,
+          "recall": 0.625,
+          "f1": 0.6666666666666666,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 5
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8947368421052632,
+          "recall": 1.0,
+          "f1": 0.9444444444444444,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.7142857142857143,
+          "f1": 0.8333333333333334,
+          "support": 7
+        }
+      }
+    },
+    "test": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 49,
+            "REFUSE": 4
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 17
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9607843137254902,
+          "recall": 0.9245283018867925,
+          "f1": 0.9423076923076923,
+          "support": 53
+        },
+        "REFUSE": {
+          "precision": 0.8095238095238095,
+          "recall": 0.8947368421052632,
+          "f1": 0.85,
+          "support": 19
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 13,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 11
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 13
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 11
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 4
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8947368421052632,
+          "recall": 0.9444444444444444,
+          "f1": 0.918918918918919,
+          "support": 18
+        },
+        "REFUSE": {
+          "precision": 0.8,
+          "recall": 0.6666666666666666,
+          "f1": 0.7272727272727273,
+          "support": 6
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 19,
+            "REFUSE": 3
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 2
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 0.8636363636363636,
+          "f1": 0.926829268292683,
+          "support": 22
+        },
+        "REFUSE": {
+          "precision": 0.4,
+          "recall": 1.0,
+          "f1": 0.5714285714285714,
+          "support": 2
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 36,
+            "REFUSE": 4
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 6
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9473684210526315,
+          "recall": 0.9,
+          "f1": 0.9230769230769231,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.6,
+          "recall": 0.75,
+          "f1": 0.6666666666666666,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 16,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 5
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8888888888888888,
+          "recall": 0.9411764705882353,
+          "f1": 0.9142857142857143,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 0.8333333333333334,
+          "recall": 0.7142857142857143,
+          "f1": 0.7692307692307693,
+          "support": 7
+        }
+      }
+    },
+    "heldout": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 81,
+            "REFUSE": 4
+          },
+          "REFUSE": {
+            "COMPLY": 5,
+            "REFUSE": 30
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9418604651162791,
+          "recall": 0.9529411764705882,
+          "f1": 0.9473684210526315,
+          "support": 85
+        },
+        "REFUSE": {
+          "precision": 0.8823529411764706,
+          "recall": 0.8571428571428571,
+          "f1": 0.8695652173913043,
+          "support": 35
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 4
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 19
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 0.8095238095238095,
+          "f1": 0.8947368421052632,
+          "support": 21
+        },
+        "REFUSE": {
+          "precision": 0.8260869565217391,
+          "recall": 1.0,
+          "f1": 0.9047619047619048,
+          "support": 19
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 30,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 8
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9375,
+          "recall": 1.0,
+          "f1": 0.967741935483871,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.8888888888888888,
+          "support": 10
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 34,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 3
+          }
+        },
+        "COMPLY": {
+          "precision": 0.918918918918919,
+          "recall": 1.0,
+          "f1": 0.9577464788732394,
+          "support": 34
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "support": 6
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 64,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 5,
+            "REFUSE": 11
+          }
+        },
+        "COMPLY": {
+          "precision": 0.927536231884058,
+          "recall": 1.0,
+          "f1": 0.9624060150375939,
+          "support": 64
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.6875,
+          "f1": 0.8148148148148148,
+          "support": 16
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 30,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 9
+          }
+        },
+        "COMPLY": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "f1": 0.9836065573770492,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        }
+      }
+    }
+  },
+  "majority": {
+    "val": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 52,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 20,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7222222222222222,
+          "recall": 1.0,
+          "f1": 0.8387096774193549,
+          "support": 52
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 20
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 12,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "support": 12
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 12
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 20,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 4,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 4
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 20,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 4,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 4
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 40,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 8,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 7,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7083333333333334,
+          "recall": 1.0,
+          "f1": 0.8292682926829268,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        }
+      }
+    },
+    "test": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 53,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 19,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7361111111111112,
+          "recall": 1.0,
+          "f1": 0.848,
+          "support": 53
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 13,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 11,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.5416666666666666,
+          "recall": 1.0,
+          "f1": 0.7027027027027027,
+          "support": 13
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 11
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 18,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 6,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "support": 18
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 22,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9166666666666666,
+          "recall": 1.0,
+          "f1": 0.9565217391304348,
+          "support": 22
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 40,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 8,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 7,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7083333333333334,
+          "recall": 1.0,
+          "f1": 0.8292682926829268,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 7
+        }
+      }
+    },
+    "heldout": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 85,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 35,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7083333333333334,
+          "recall": 1.0,
+          "f1": 0.8292682926829268,
+          "support": 85
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 35
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 21,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 19,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.525,
+          "recall": 1.0,
+          "f1": 0.6885245901639344,
+          "support": 21
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 19
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 30,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 10,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 34,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 6,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.85,
+          "recall": 1.0,
+          "f1": 0.918918918918919,
+          "support": 34
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 64,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 16,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.8888888888888888,
+          "support": 64
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 16
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 30,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 10,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        }
+      }
+    }
+  },
+  "harmful_rule": {
+    "val": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 35,
+            "REFUSE": 17
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 19
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9722222222222222,
+          "recall": 0.6730769230769231,
+          "f1": 0.7954545454545454,
+          "support": 52
+        },
+        "REFUSE": {
+          "precision": 0.5277777777777778,
+          "recall": 0.95,
+          "f1": 0.6785714285714286,
+          "support": 20
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 12
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 8
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 4
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 0.6,
+          "f1": 0.75,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.3333333333333333,
+          "recall": 1.0,
+          "f1": 0.5,
+          "support": 4
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 11,
+            "REFUSE": 9
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 3
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9166666666666666,
+          "recall": 0.55,
+          "f1": 0.6875,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.25,
+          "recall": 0.75,
+          "f1": 0.375,
+          "support": 4
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 23,
+            "REFUSE": 17
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 7
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9583333333333334,
+          "recall": 0.575,
+          "f1": 0.71875,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.2916666666666667,
+          "recall": 0.875,
+          "f1": 0.4375,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 0,
+            "REFUSE": 17
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 7
+          }
+        },
+        "COMPLY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 0.2916666666666667,
+          "recall": 1.0,
+          "f1": 0.45161290322580644,
+          "support": 7
+        }
+      }
+    },
+    "test": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 35,
+            "REFUSE": 18
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 18
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9722222222222222,
+          "recall": 0.660377358490566,
+          "f1": 0.7865168539325843,
+          "support": 53
+        },
+        "REFUSE": {
+          "precision": 0.5,
+          "recall": 0.9473684210526315,
+          "f1": 0.6545454545454545,
+          "support": 19
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 11
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 0.9230769230769231,
+          "f1": 0.96,
+          "support": 13
+        },
+        "REFUSE": {
+          "precision": 0.9166666666666666,
+          "recall": 1.0,
+          "f1": 0.9565217391304348,
+          "support": 11
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 6
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 6
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "support": 18
+        },
+        "REFUSE": {
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666,
+          "support": 6
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 11,
+            "REFUSE": 11
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 1
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9166666666666666,
+          "recall": 0.5,
+          "f1": 0.6470588235294118,
+          "support": 22
+        },
+        "REFUSE": {
+          "precision": 0.08333333333333333,
+          "recall": 0.5,
+          "f1": 0.14285714285714285,
+          "support": 2
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 23,
+            "REFUSE": 17
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 7
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9583333333333334,
+          "recall": 0.575,
+          "f1": 0.71875,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.2916666666666667,
+          "recall": 0.875,
+          "f1": 0.4375,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 0,
+            "REFUSE": 17
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 7
+          }
+        },
+        "COMPLY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 0.2916666666666667,
+          "recall": 1.0,
+          "f1": 0.45161290322580644,
+          "support": 7
+        }
+      }
+    },
+    "heldout": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 54,
+            "REFUSE": 31
+          },
+          "REFUSE": {
+            "COMPLY": 6,
+            "REFUSE": 29
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9,
+          "recall": 0.6352941176470588,
+          "f1": 0.7448275862068966,
+          "support": 85
+        },
+        "REFUSE": {
+          "precision": 0.48333333333333334,
+          "recall": 0.8285714285714286,
+          "f1": 0.6105263157894737,
+          "support": 35
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 20,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 19
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 0.9523809523809523,
+          "f1": 0.975609756097561,
+          "support": 21
+        },
+        "REFUSE": {
+          "precision": 0.95,
+          "recall": 1.0,
+          "f1": 0.9743589743589743,
+          "support": 19
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 16,
+            "REFUSE": 14
+          },
+          "REFUSE": {
+            "COMPLY": 4,
+            "REFUSE": 6
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8,
+          "recall": 0.5333333333333333,
+          "f1": 0.64,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 0.3,
+          "recall": 0.6,
+          "f1": 0.4,
+          "support": 10
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 18,
+            "REFUSE": 16
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 4
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9,
+          "recall": 0.5294117647058824,
+          "f1": 0.6666666666666666,
+          "support": 34
+        },
+        "REFUSE": {
+          "precision": 0.2,
+          "recall": 0.6666666666666666,
+          "f1": 0.3076923076923077,
+          "support": 6
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 34,
+            "REFUSE": 30
+          },
+          "REFUSE": {
+            "COMPLY": 6,
+            "REFUSE": 10
+          }
+        },
+        "COMPLY": {
+          "precision": 0.85,
+          "recall": 0.53125,
+          "f1": 0.6538461538461539,
+          "support": 64
+        },
+        "REFUSE": {
+          "precision": 0.25,
+          "recall": 0.625,
+          "f1": 0.35714285714285715,
+          "support": 16
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 0,
+            "REFUSE": 30
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 10
+          }
+        },
+        "COMPLY": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 0.25,
+          "recall": 1.0,
+          "f1": 0.4,
+          "support": 10
+        }
+      }
+    }
+  },
+  "tfidf_prompt": {
+    "val": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 48,
+            "REFUSE": 4
+          },
+          "REFUSE": {
+            "COMPLY": 8,
+            "REFUSE": 12
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8571428571428571,
+          "recall": 0.9230769230769231,
+          "f1": 0.8888888888888888,
+          "support": 52
+        },
+        "REFUSE": {
+          "precision": 0.75,
+          "recall": 0.6,
+          "f1": 0.6666666666666666,
+          "support": 20
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 11,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 11
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9166666666666666,
+          "recall": 0.9166666666666666,
+          "f1": 0.9166666666666666,
+          "support": 12
+        },
+        "REFUSE": {
+          "precision": 0.9166666666666666,
+          "recall": 0.9166666666666666,
+          "f1": 0.9166666666666666,
+          "support": 12
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 3
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 1
+          }
+        },
+        "COMPLY": {
+          "precision": 0.85,
+          "recall": 0.85,
+          "f1": 0.85,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.25,
+          "recall": 0.25,
+          "f1": 0.25,
+          "support": 4
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 20,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 4,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1": 0.9090909090909091,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 4
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 37,
+            "REFUSE": 3
+          },
+          "REFUSE": {
+            "COMPLY": 7,
+            "REFUSE": 1
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8409090909090909,
+          "recall": 0.925,
+          "f1": 0.8809523809523809,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.25,
+          "recall": 0.125,
+          "f1": 0.16666666666666666,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 15,
+            "REFUSE": 2
+          },
+          "REFUSE": {
+            "COMPLY": 6,
+            "REFUSE": 1
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7142857142857143,
+          "recall": 0.8823529411764706,
+          "f1": 0.7894736842105263,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 0.3333333333333333,
+          "recall": 0.14285714285714285,
+          "f1": 0.2,
+          "support": 7
+        }
+      }
+    },
+    "test": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 51,
+            "REFUSE": 2
+          },
+          "REFUSE": {
+            "COMPLY": 9,
+            "REFUSE": 10
+          }
+        },
+        "COMPLY": {
+          "precision": 0.85,
+          "recall": 0.9622641509433962,
+          "f1": 0.9026548672566371,
+          "support": 53
+        },
+        "REFUSE": {
+          "precision": 0.8333333333333334,
+          "recall": 0.5263157894736842,
+          "f1": 0.6451612903225806,
+          "support": 19
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 8
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8,
+          "recall": 0.9230769230769231,
+          "f1": 0.8571428571428571,
+          "support": 13
+        },
+        "REFUSE": {
+          "precision": 0.8888888888888888,
+          "recall": 0.7272727272727273,
+          "f1": 0.8,
+          "support": 11
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 4,
+            "REFUSE": 2
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8095238095238095,
+          "recall": 0.9444444444444444,
+          "f1": 0.8717948717948718,
+          "support": 18
+        },
+        "REFUSE": {
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "f1": 0.4444444444444444,
+          "support": 6
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 22,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9166666666666666,
+          "recall": 1.0,
+          "f1": 0.9565217391304348,
+          "support": 22
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 39,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 6,
+            "REFUSE": 2
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8666666666666667,
+          "recall": 0.975,
+          "f1": 0.9176470588235294,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 0.6666666666666666,
+          "recall": 0.25,
+          "f1": 0.36363636363636365,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 16,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 5,
+            "REFUSE": 2
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7619047619047619,
+          "recall": 0.9411764705882353,
+          "f1": 0.8421052631578947,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 0.6666666666666666,
+          "recall": 0.2857142857142857,
+          "f1": 0.4,
+          "support": 7
+        }
+      }
+    },
+    "heldout": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 81,
+            "REFUSE": 4
+          },
+          "REFUSE": {
+            "COMPLY": 27,
+            "REFUSE": 8
+          }
+        },
+        "COMPLY": {
+          "precision": 0.75,
+          "recall": 0.9529411764705882,
+          "f1": 0.8393782383419689,
+          "support": 85
+        },
+        "REFUSE": {
+          "precision": 0.6666666666666666,
+          "recall": 0.22857142857142856,
+          "f1": 0.3404255319148936,
+          "support": 35
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 19,
+            "REFUSE": 2
+          },
+          "REFUSE": {
+            "COMPLY": 11,
+            "REFUSE": 8
+          }
+        },
+        "COMPLY": {
+          "precision": 0.6333333333333333,
+          "recall": 0.9047619047619048,
+          "f1": 0.7450980392156863,
+          "support": 21
+        },
+        "REFUSE": {
+          "precision": 0.8,
+          "recall": 0.42105263157894735,
+          "f1": 0.5517241379310345,
+          "support": 19
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 30,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 10,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 32,
+            "REFUSE": 2
+          },
+          "REFUSE": {
+            "COMPLY": 6,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.8421052631578947,
+          "recall": 0.9411764705882353,
+          "f1": 0.8888888888888888,
+          "support": 34
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 62,
+            "REFUSE": 2
+          },
+          "REFUSE": {
+            "COMPLY": 16,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7948717948717948,
+          "recall": 0.96875,
+          "f1": 0.8732394366197183,
+          "support": 64
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 16
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 29,
+            "REFUSE": 1
+          },
+          "REFUSE": {
+            "COMPLY": 10,
+            "REFUSE": 0
+          }
+        },
+        "COMPLY": {
+          "precision": 0.7435897435897436,
+          "recall": 0.9666666666666667,
+          "f1": 0.8405797101449275,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 10
+        }
+      }
+    }
+  },
+  "tfidf_response": {
+    "val": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 52,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 20
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 52
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 20
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 12,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 12
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 12
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 20,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 4
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 4
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 20,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 4
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 20
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 4
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 40,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 8
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 7
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 7
+        }
+      }
+    },
+    "test": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 53,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 17
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9636363636363636,
+          "recall": 1.0,
+          "f1": 0.9814814814814815,
+          "support": 53
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.8947368421052632,
+          "f1": 0.9444444444444444,
+          "support": 19
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 13,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 11
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 13
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 11
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 18,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 5
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9473684210526315,
+          "recall": 1.0,
+          "f1": 0.972972972972973,
+          "support": 18
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "support": 6
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 22,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 1
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9565217391304348,
+          "recall": 1.0,
+          "f1": 0.9777777777777777,
+          "support": 22
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "support": 2
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 40,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 6
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9523809523809523,
+          "recall": 1.0,
+          "f1": 0.975609756097561,
+          "support": 40
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "support": 8
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 17,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 6
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9444444444444444,
+          "recall": 1.0,
+          "f1": 0.9714285714285714,
+          "support": 17
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.8571428571428571,
+          "f1": 0.9230769230769231,
+          "support": 7
+        }
+      }
+    },
+    "heldout": {
+      "all": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 85,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 32
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9659090909090909,
+          "recall": 1.0,
+          "f1": 0.9826589595375722,
+          "support": 85
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.9142857142857143,
+          "f1": 0.9552238805970149,
+          "support": 35
+        }
+      },
+      "l1": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 21,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 0,
+            "REFUSE": 19
+          }
+        },
+        "COMPLY": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 21
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "support": 19
+        }
+      },
+      "l2": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 30,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 9
+          }
+        },
+        "COMPLY": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "f1": 0.9836065573770492,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        }
+      },
+      "l3": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 34,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 2,
+            "REFUSE": 4
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9444444444444444,
+          "recall": 1.0,
+          "f1": 0.9714285714285714,
+          "support": 34
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "support": 6
+        }
+      },
+      "l23": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 64,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 3,
+            "REFUSE": 13
+          }
+        },
+        "COMPLY": {
+          "precision": 0.9552238805970149,
+          "recall": 1.0,
+          "f1": 0.9770992366412213,
+          "support": 64
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.8125,
+          "f1": 0.896551724137931,
+          "support": 16
+        }
+      },
+      "l23_harmful": {
+        "matrix": {
+          "COMPLY": {
+            "COMPLY": 30,
+            "REFUSE": 0
+          },
+          "REFUSE": {
+            "COMPLY": 1,
+            "REFUSE": 9
+          }
+        },
+        "COMPLY": {
+          "precision": 0.967741935483871,
+          "recall": 1.0,
+          "f1": 0.9836065573770492,
+          "support": 30
+        },
+        "REFUSE": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1": 0.9473684210526315,
+          "support": 10
+        }
+      }
+    }
+  }
+}

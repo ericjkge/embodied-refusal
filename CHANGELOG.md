@@ -17,11 +17,14 @@ Last updated: 2026-11-03.
 | Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
 | Probe | **Done.** Final test/heldout run on 2026-11-03 (`results/probe_final.json`). Don't tune further |
 | Baselines | **Done.** Final test/heldout run on 2026-11-03 (`results/baselines_final.json`) |
+| Confusion matrices | **Done.** Per-example predictions in `results/predictions_final.jsonl`, matrices and per-class precision/recall in `results/confusion_final.json` |
+| Confidence intervals | **Done.** `src/bootstrap.py`, in `results/bootstrap.json` |
+| Manual review of held-out examples | Sample drawn (`results/review_sample.jsonl`, 30 rows). **Needs a person to label it blind** |
 
 ## Next steps
 
-1. **Confidence intervals.** Val and test each have only a few level 2 and 3 refusals. Bootstrap over `group_id` for AUROC and balanced accuracy.
-2. **Report.** Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
+1. **Manual review (assignment Part 2 §4).** Label the 30 held-out responses blind: `python labeling/server.py --input review_sample.jsonl --output review_labels.jsonl`, then open http://localhost:8765. Only scene, instruction, and response are shown. **Don't open `results/review_key.jsonl` until every row is labeled.** Then compare against the key and, for each disagreement, decide: probe miss, judge error, ambiguous rubric, or surface cue.
+2. **Report.** Use the confusion matrices and per-class precision/recall (required by the assignment), the bootstrap CIs, and state what each method sees: the judge sees scene, instruction, and response; the probe sees the prompt only (`prompt_last`); `tfidf_prompt` the prompt text; `tfidf_response` the response text. The 0.5 threshold was fixed before seeing test and never tuned on val; say so. Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
 
 ## Rules for working in this repo
 
@@ -123,6 +126,52 @@ Run on 2026-10-31 on Cory's Mac (CPU, about 3 minutes). Per-layer results are in
 - **Accuracy is not informative at levels 2 and 3.** Always predicting COMPLY scores 0.83 at each level on val. The probe scores 0.96 at level 2 and 0.83 at level 3. Report AUROC and balanced accuracy with CIs.
 - **Layer choice is flat** from about layer 20 on (val AUROC 0.98 to 0.99), so the chosen layer 29 isn't special.
 
+## Confidence intervals
+
+`python src/bootstrap.py` (about 4 minutes on CPU) resamples `group_id` with replacement, 2000 times, seed 0, and takes percentile 95% intervals. Everything is in `results/bootstrap.json`, including balanced accuracy and per-level numbers.
+
+**Behavior on development data (train + val), REFUSE rate [95% CI]**
+
+| Level | Harmful | Benign | Gap |
+|---|---|---|---|
+| 1 | 0.96 [0.90, 1.00] | 0.04 [0.00, 0.10] | 0.91 [0.84, 0.97] |
+| 2 | 0.34 [0.23, 0.46] | 0.03 [0.00, 0.07] | 0.31 [0.20, 0.43] |
+| 3 | 0.21 [0.12, 0.30] | 0.09 [0.03, 0.17] | 0.12 [0.00, 0.23] |
+
+On all 600 the numbers are within 0.02 of these. The level 3 gap barely excludes zero, so the model only weakly distinguishes harmful from benign when spotting the danger takes outside knowledge.
+
+**AUROC [95% CI], levels 2+3**
+
+| Split | Probe | `harmful_rule` | `tfidf_prompt` | Probe − `tfidf_prompt` | Probe − `harmful_rule` |
+|---|---|---|---|---|---|
+| Test | 0.91 [0.83, 0.98] | 0.72 [0.54, 0.82] | 0.71 [0.50, 0.89] | 0.20 [0.03, 0.41] | 0.18 [0.06, 0.39] |
+| Heldout | 0.98 [0.96, 1.00] | 0.58 [0.44, 0.72] | 0.51 [0.37, 0.65] | 0.48 [0.34, 0.61] | 0.41 [0.26, 0.55] |
+
+The probe's advantage over both prompt-only baselines excludes zero on test and heldout, but the test intervals are wide.
+
+## Confusion matrices (threshold 0.5)
+
+`python src/predictions.py` refits exactly the frozen configurations (same code and data, deterministic), checks that it reproduces `probe_final.json` and `baselines_final.json`, and saves per-example predictions. This was rerun after the final scoring only to save predictions; nothing was changed or tuned. Rows are the judge label and columns the prediction.
+
+| Model | Split | C→C | C→R | R→C | R→R | REFUSE precision / recall | COMPLY precision / recall |
+|---|---|---|---|---|---|---|---|
+| Probe | Test | 49 | 4 | 2 | 17 | 0.81 / 0.89 | 0.96 / 0.92 |
+| `harmful_rule` | Test | 35 | 18 | 1 | 18 | 0.50 / 0.95 | 0.97 / 0.66 |
+| `tfidf_prompt` | Test | 51 | 2 | 9 | 10 | 0.83 / 0.53 | 0.85 / 0.96 |
+| `tfidf_response` | Test | 53 | 0 | 2 | 17 | 1.00 / 0.89 | 0.96 / 1.00 |
+| Probe | Heldout | 81 | 4 | 5 | 30 | 0.88 / 0.86 | 0.94 / 0.95 |
+| `harmful_rule` | Heldout | 54 | 31 | 6 | 29 | 0.48 / 0.83 | 0.90 / 0.64 |
+| `tfidf_prompt` | Heldout | 81 | 4 | 27 | 8 | 0.67 / 0.23 | 0.75 / 0.95 |
+| `tfidf_response` | Heldout | 85 | 0 | 3 | 32 | 1.00 / 0.91 | 0.97 / 1.00 |
+
+`majority` predicts COMPLY for everything (test 53/19, heldout 85/35; REFUSE recall 0). Per-level matrices are in `results/confusion_final.json`.
+
+## Manual review sample
+
+`python src/review_sample.py` drew 30 held-out responses: all 15 probe-judge disagreements (6 test, 9 heldout) and 15 agreements picked at random (seed 0), split between judge REFUSE and COMPLY and favoring levels 2 and 3. Levels: 4 at level 1, 15 at level 2, 11 at level 3. `results/review_sample.jsonl` holds only what the reviewer sees; `results/review_key.jsonl` holds the judge label, probe prediction, and `tfidf_prompt` prediction. Because half the sample is disagreements, use it to diagnose errors, not to estimate accuracy.
+
+**Surface-cue cases for the report:** across all 600, 6 responses are REFUSE without `decline()` (`wait()` or a safe alternative), and 6 are COMPLY even though the reasoning mentions danger or risk. These are the examples that challenge word matching.
+
 ## Final results (test and heldout)
 
 Run once on 2026-11-03 on Anchal's Mac with `python src/probe.py --final --layer 29` and `python src/baselines.py --final`, after the shared-scoring change. **Nothing may be tuned after this.** Full numbers, including accuracy and counts, are in `results/probe_final.json` and `results/baselines_final.json`. Cells are AUROC / balanced accuracy at a 0.5 threshold.
@@ -205,6 +254,7 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 - Added `src/baselines.py` and ran development on val (`results/baselines_val.json`).
 - `probe.py` now uses the same scoring as `baselines.py`. Regenerated `results/probe_val.jsonl`.
 - Ran the final probe (layer 29) and baselines on test and heldout, once (`results/probe_final.json`, `results/baselines_final.json`).
+- Added `src/predictions.py` (per-example predictions and confusion matrices), `src/bootstrap.py` (group bootstrap CIs), and `src/review_sample.py` (blind manual-review sample).
 
 ### 2026-10-30
 
