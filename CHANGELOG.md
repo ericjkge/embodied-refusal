@@ -4,7 +4,7 @@ Shared log for teammates and their agents. Read this before changing anything, a
 
 ## Current status
 
-Last updated: 2026-11-02.
+Last updated: 2026-11-03.
 
 | Step | Status |
 |---|---|
@@ -16,14 +16,13 @@ Last updated: 2026-11-02.
 | Activations | **Done.** `activations/acts.pt` (546 MB, not in git) is on the pod and on Cory's Mac |
 | Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
 | Probe | Development on train/val done (`src/probe.py`). The `--final` test/heldout run has **not** been done |
-| Baselines | Not started. Create `src/baselines.py` |
+| Baselines | Development on val done (`src/baselines.py`, `results/baselines_val.json`). The `--final` test/heldout run has **not** been done |
 
 ## Next steps
 
-1. **Baselines (`src/baselines.py`).** TF-IDF + logistic regression on the prompt only (scene and instruction) and on the full response, plus a rule that predicts REFUSE for every harmful variant. Use the same train/val protocol as `probe.py`, and report AUROC and balanced accuracy on levels 2 and 3 separately.
-2. **Final probe run (`python src/probe.py --final`).** This scores the `prompt_last` probe at its best val layer on test and heldout. Run it **once**, after the baselines are done and the probe is settled, and don't tune anything afterwards. Add the baselines' test and heldout numbers in the same step.
-3. **Confidence intervals.** Val and test each have only a few level 2 and 3 refusals. Bootstrap over `group_id` for AUROC and balanced accuracy.
-4. **Report.** Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
+1. **Final probe and baseline run.** Run `python src/probe.py --final` and `python src/baselines.py --final` together, **once**, and don't tune anything afterwards. These score the `prompt_last` probe at its best val layer and the 4 baselines on test and heldout, into `results/probe_final.json` and `results/baselines_final.json`.
+2. **Confidence intervals.** Val and test each have only a few level 2 and 3 refusals. Bootstrap over `group_id` for AUROC and balanced accuracy.
+3. **Report.** Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
 
 ## Rules for working in this repo
 
@@ -125,6 +124,24 @@ Run on 2026-10-31 on Cory's Mac (CPU, about 3 minutes). Per-layer results are in
 - **Accuracy is not informative at levels 2 and 3.** Always predicting COMPLY scores 0.83 at each level on val. The probe scores 0.96 at level 2 and 0.83 at level 3. Report AUROC and balanced accuracy with CIs.
 - **Layer choice is flat** from about layer 20 on (val AUROC 0.98 to 0.99), so the chosen layer 29 isn't special.
 
+## Baselines (val only)
+
+Run on 2026-11-03 on Anchal's Mac (CPU, under a minute) with `python src/baselines.py`. It needs only `results/judge_labels.jsonl`, not activations. Same protocol as `probe.py`: fit on train, choose C by 5-fold `GroupKFold` on `group_id` with AUROC, score on val. TF-IDF uses word 1-2 grams with sublinear TF, and C from 0.01 to 100, because sparse unstandardized features need a larger C than the probe. Results are in `results/baselines_val.json`, which also has accuracy and per-level counts.
+
+| Baseline | All | Level 2 | Level 3 | Levels 2+3 | L2+3 harmful only |
+|---|---|---|---|---|---|
+| `majority` (always COMPLY) | 0.50 / 0.50 | 0.50 / 0.50 | 0.50 / 0.50 | 0.50 / 0.50 | 0.50 / 0.50 |
+| `harmful_rule` (REFUSE iff harmful) | 0.81 / 0.81 | 0.80 / 0.80 | 0.65 / 0.65 | 0.725 / 0.725 | 0.50 / 0.50 |
+| `tfidf_prompt` (scene + instruction, C=10) | 0.87 / 0.76 | 0.78 / 0.55 | 0.71 / 0.50 | 0.76 / 0.53 | 0.68 / 0.51 |
+| `tfidf_response` (C=100) | 1.00 / 1.00 | 1.00 / 1.00 | 1.00 / 1.00 | 1.00 / 1.00 | 1.00 / 1.00 |
+
+Cells are val AUROC / balanced accuracy at a 0.5 threshold.
+
+- **The probe beats the prompt-only baselines.** On levels 2 and 3 the `prompt_last` probe has val AUROC 0.956, against 0.76 for `tfidf_prompt` and 0.725 for `harmful_rule`. Within harmful variants it has 0.99, against 0.68 and 0.50. The same text the probe reads isn't enough on its own for a bag-of-words model to predict refusal.
+- **`tfidf_prompt` balanced accuracy is near 0.5 on levels 2 and 3.** With few positives it rarely crosses 0.5 there, so compare it by AUROC.
+- **`tfidf_response` is perfect, as expected,** because the response writes out `decline(...)`. It's a sanity check, not a competitor.
+- Val has only 8 REFUSE at levels 2 and 3, so these differences need the bootstrap CIs.
+
 ## Judge validation
 
 Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 responses in `results/hand_label_sample.jsonl`, all from `train` and `val`. The judge labels are in `results/hand_label_sample_judge.jsonl`.
@@ -143,6 +160,10 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 - **Lightly reviewed prompts:** Eric skimmed the 300 pairs, and most have not been through the target model yet.
 
 ## History
+
+### 2026-11-03
+
+- Added `src/baselines.py` and ran development on val (`results/baselines_val.json`).
 
 ### 2026-10-30
 
