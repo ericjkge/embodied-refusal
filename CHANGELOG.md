@@ -15,12 +15,12 @@ Last updated: 2026-11-03.
 | `src/judge.py` | Works and validated on a hand-labeled sample |
 | Activations | **Done.** `activations/acts.pt` (546 MB, not in git) is on the pod and on Cory's Mac |
 | Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
-| Probe | Development on train/val done (`src/probe.py`). The `--final` test/heldout run has **not** been done |
+| Probe | Development on train/val done (`src/probe.py`), now with the same scoring as the baselines. The `--final` test/heldout run has **not** been done |
 | Baselines | Development on val done (`src/baselines.py`, `results/baselines_val.json`). The `--final` test/heldout run has **not** been done |
 
 ## Next steps
 
-1. **Final probe and baseline run.** Run `python src/probe.py --final` and `python src/baselines.py --final` together, **once**, and don't tune anything afterwards. These score the `prompt_last` probe at its best val layer and the 4 baselines on test and heldout, into `results/probe_final.json` and `results/baselines_final.json`.
+1. **Final probe and baseline run.** Run `python src/probe.py --final --layer 29` and `python src/baselines.py --final` together, **once**, and don't tune anything afterwards. These score the `prompt_last` probe at its best val layer and the 4 baselines on test and heldout, into `results/probe_final.json` and `results/baselines_final.json`.
 2. **Confidence intervals.** Val and test each have only a few level 2 and 3 refusals. Bootstrap over `group_id` for AUROC and balanced accuracy.
 3. **Report.** Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
 
@@ -137,10 +137,21 @@ Run on 2026-11-03 on Anchal's Mac (CPU, under a minute) with `python src/baselin
 
 Cells are val AUROC / balanced accuracy at a 0.5 threshold.
 
-- **The probe beats the prompt-only baselines.** On levels 2 and 3 the `prompt_last` probe has val AUROC 0.956, against 0.76 for `tfidf_prompt` and 0.725 for `harmful_rule`. Within harmful variants it has 0.99, against 0.68 and 0.50. The same text the probe reads isn't enough on its own for a bag-of-words model to predict refusal.
+- **The probe is ahead of the prompt-only baselines on val.** On levels 2 and 3 the `prompt_last` layer 29 probe has val AUROC 0.956, against 0.76 for `tfidf_prompt` and 0.725 for `harmful_rule`. Within harmful variants it has 0.99, against 0.68 and 0.50. Treat this as a hint: there are only 8 positives, and the probe's layer was picked on val while the baselines' C was picked by CV on train, so val flatters the probe. Test is the fair comparison.
 - **`tfidf_prompt` balanced accuracy is near 0.5 on levels 2 and 3.** With few positives it rarely crosses 0.5 there, so compare it by AUROC.
 - **`tfidf_response` is perfect, as expected,** because the response writes out `decline(...)`. It's a sanity check, not a competitor.
 - Val has only 8 REFUSE at levels 2 and 3, so these differences need the bootstrap CIs.
+
+### Shared scoring (2026-11-03)
+
+`probe.py` now scores with `baselines.score`, so `probe_val.jsonl` and `probe_final.json` have the same fields as the baselines: AUROC, balanced accuracy, and accuracy overall, per level (`_l1`, `_l2`, `_l3`), on levels 2+3 pooled (`_l23`), and within harmful variants at levels 2+3 (`_l23_harmful`). Training and layer selection are unchanged.
+
+`results/probe_val.jsonl` was regenerated on Anchal's Mac with this scoring (CPU, about 90 seconds, scikit-learn 1.9.1, torch 2.15.0, Python 3.14). Results match Cory's run closely but not exactly: the CV picked a different C at some layers, so val AUROC moved by up to 0.03 at layers 4 to 18 and by at most 0.002 from layer 22 on. Layer 29 is unchanged (AUROC 0.987, levels 2+3 AUROC 0.956). Layer 22 now ties it at 0.987, and `--final` breaks the tie by taking the lower layer, so **pass `--layer 29` to `--final`** to keep the layer the earlier analysis used. scikit-learn isn't pinned in `requirements.txt`, which is the likely cause.
+
+| `prompt_last` layer | Val AUROC | L2+3 AUROC | L2+3 balanced acc | L2+3 harmful AUROC |
+|---|---|---|---|---|
+| 22 | 0.987 | 0.969 | 0.74 | 0.98 |
+| 29 | 0.987 | 0.956 | 0.79 | 0.99 |
 
 ## Judge validation
 
@@ -164,6 +175,7 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 ### 2026-11-03
 
 - Added `src/baselines.py` and ran development on val (`results/baselines_val.json`).
+- `probe.py` now uses the same scoring as `baselines.py`. Regenerated `results/probe_val.jsonl`.
 
 ### 2026-10-30
 

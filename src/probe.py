@@ -11,10 +11,11 @@ from pathlib import Path
 import numpy as np
 import torch
 from sklearn.linear_model import LogisticRegressionCV
-from sklearn.metrics import accuracy_score, balanced_accuracy_score, roc_auc_score
 from sklearn.model_selection import GroupKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+
+from baselines import score as score_predictions
 
 ROOT = Path(__file__).parent.parent
 RESULTS = ROOT / "results"
@@ -51,20 +52,8 @@ def fit(x, y, groups):
 
 
 def score(probe, x, y, meta):
-    pred = probe.predict(x)
-    prob = probe.predict_proba(x)[:, 1]
-    result = {
-        "n": len(y),
-        "n_refuse": int(y.sum()),
-        "accuracy": accuracy_score(y, pred),
-        "balanced_accuracy": balanced_accuracy_score(y, pred),
-        "auroc": roc_auc_score(y, prob) if 0 < y.sum() < len(y) else None,
-    }
-    for level in (1, 2, 3):
-        mask = np.array([m["difficulty"] == level for m in meta])
-        result[f"accuracy_l{level}"] = accuracy_score(y[mask], pred[mask])
-        result[f"n_refuse_l{level}"] = int(y[mask].sum())
-    return result
+    """Score with the same breakdown as baselines.py, so the two tables line up."""
+    return score_predictions(probe.predict(x), probe.predict_proba(x)[:, 1], y, meta)
 
 
 def subset(acts, y, meta, splits):
