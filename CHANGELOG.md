@@ -15,14 +15,13 @@ Last updated: 2026-11-03.
 | `src/judge.py` | Works and validated on a hand-labeled sample |
 | Activations | **Done.** `activations/acts.pt` (546 MB, not in git) is on the pod and on Cory's Mac |
 | Judge on full run | **Done.** All 4 splits, in `results/judge_labels.jsonl` |
-| Probe | Development on train/val done (`src/probe.py`), now with the same scoring as the baselines. The `--final` test/heldout run has **not** been done |
-| Baselines | Development on val done (`src/baselines.py`, `results/baselines_val.json`). The `--final` test/heldout run has **not** been done |
+| Probe | **Done.** Final test/heldout run on 2026-11-03 (`results/probe_final.json`). Don't tune further |
+| Baselines | **Done.** Final test/heldout run on 2026-11-03 (`results/baselines_final.json`) |
 
 ## Next steps
 
-1. **Final probe and baseline run.** Run `python src/probe.py --final --layer 29` and `python src/baselines.py --final` together, **once**, and don't tune anything afterwards. These score the `prompt_last` probe at its best val layer and the 4 baselines on test and heldout, into `results/probe_final.json` and `results/baselines_final.json`.
-2. **Confidence intervals.** Val and test each have only a few level 2 and 3 refusals. Bootstrap over `group_id` for AUROC and balanced accuracy.
-3. **Report.** Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
+1. **Confidence intervals.** Val and test each have only a few level 2 and 3 refusals. Bootstrap over `group_id` for AUROC and balanced accuracy.
+2. **Report.** Disclose the pilot exposure and split leakage under Known issues, and give judge agreement as 98/100 first.
 
 ## Rules for working in this repo
 
@@ -124,6 +123,35 @@ Run on 2026-10-31 on Cory's Mac (CPU, about 3 minutes). Per-layer results are in
 - **Accuracy is not informative at levels 2 and 3.** Always predicting COMPLY scores 0.83 at each level on val. The probe scores 0.96 at level 2 and 0.83 at level 3. Report AUROC and balanced accuracy with CIs.
 - **Layer choice is flat** from about layer 20 on (val AUROC 0.98 to 0.99), so the chosen layer 29 isn't special.
 
+## Final results (test and heldout)
+
+Run once on 2026-11-03 on Anchal's Mac with `python src/probe.py --final --layer 29` and `python src/baselines.py --final`, after the shared-scoring change. **Nothing may be tuned after this.** Full numbers, including accuracy and counts, are in `results/probe_final.json` and `results/baselines_final.json`. Cells are AUROC / balanced accuracy at a 0.5 threshold.
+
+**Test** (72 responses, 19 REFUSE; 6 at level 2, 2 at level 3)
+
+| Model | All | Level 2 | Level 3 | Levels 2+3 | L2+3 harmful only |
+|---|---|---|---|---|---|
+| Probe, `prompt_last` layer 29 | 0.967 / 0.910 | 0.926 / 0.806 | 0.932 / 0.932 | 0.906 / 0.825 | 0.908 / 0.828 |
+| `majority` | 0.500 / 0.500 | 0.500 / 0.500 | 0.500 / 0.500 | 0.500 / 0.500 | 0.500 / 0.500 |
+| `harmful_rule` | 0.804 / 0.804 | 0.833 / 0.833 | 0.500 / 0.500 | 0.725 / 0.725 | 0.500 / 0.500 |
+| `tfidf_prompt` | 0.831 / 0.744 | 0.704 / 0.639 | 0.568 / 0.500 | 0.709 / 0.613 | 0.664 / 0.613 |
+| `tfidf_response` (sanity check) | 1.000 / 0.947 | 1.000 / 0.917 | 1.000 / 0.750 | 1.000 / 0.875 | 1.000 / 0.929 |
+
+**Heldout, electrical hazard** (120 responses, 35 REFUSE; 10 at level 2, 6 at level 3)
+
+| Model | All | Level 2 | Level 3 | Levels 2+3 | L2+3 harmful only |
+|---|---|---|---|---|---|
+| Probe, `prompt_last` layer 29 | 0.976 / 0.905 | 0.997 / 0.900 | 0.971 / 0.750 | 0.983 / 0.844 | 0.977 / 0.950 |
+| `majority` | 0.500 / 0.500 | 0.500 / 0.500 | 0.500 / 0.500 | 0.500 / 0.500 | 0.500 / 0.500 |
+| `harmful_rule` | 0.732 / 0.732 | 0.567 / 0.567 | 0.598 / 0.598 | 0.578 / 0.578 | 0.500 / 0.500 |
+| `tfidf_prompt` | 0.699 / 0.591 | 0.530 / 0.500 | 0.451 / 0.471 | 0.508 / 0.484 | 0.530 / 0.483 |
+| `tfidf_response` (sanity check) | 0.989 / 0.957 | 1.000 / 0.950 | 0.936 / 0.833 | 0.977 / 0.906 | 0.967 / 0.950 |
+
+- **The probe beats every prompt-only baseline on both splits.** On levels 2+3 it has AUROC 0.906 on test and 0.983 on heldout, against at most 0.725 and 0.578 for the baselines. Within harmful variants it has 0.908 and 0.977, against at most 0.664 and 0.530.
+- **It generalizes to the held-out hazard; the text baseline doesn't.** `tfidf_prompt` drops to chance on electrical scenarios (levels 2+3 AUROC 0.51), because it learned hazard-specific words. The probe stays high (0.98).
+- **Test level 3 has only 2 refusals,** so its per-level numbers are close to anecdotal. Use the pooled levels 2+3 column for claims, with the bootstrap CIs.
+- `tfidf_response` is near perfect as expected. Its balanced accuracy is below its AUROC only because of the 0.5 threshold.
+
 ## Baselines (val only)
 
 Run on 2026-11-03 on Anchal's Mac (CPU, under a minute) with `python src/baselines.py`. It needs only `results/judge_labels.jsonl`, not activations. Same protocol as `probe.py`: fit on train, choose C by 5-fold `GroupKFold` on `group_id` with AUROC, score on val. TF-IDF uses word 1-2 grams with sublinear TF, and C from 0.01 to 100, because sparse unstandardized features need a larger C than the probe. Results are in `results/baselines_val.json`, which also has accuracy and per-level counts.
@@ -176,6 +204,7 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 
 - Added `src/baselines.py` and ran development on val (`results/baselines_val.json`).
 - `probe.py` now uses the same scoring as `baselines.py`. Regenerated `results/probe_val.jsonl`.
+- Ran the final probe (layer 29) and baselines on test and heldout, once (`results/probe_final.json`, `results/baselines_final.json`).
 
 ### 2026-10-30
 
