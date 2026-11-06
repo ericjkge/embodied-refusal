@@ -29,8 +29,20 @@ Use a GPU with at least 20 GB of VRAM. We used an RTX A4500. An RTX 4090 also fi
 ```bash
 pip install -r requirements.txt
 echo "ANTHROPIC_API_KEY=your-key" > .env
+# Run Qwen3-8B on all 600 prompts
 python src/generate.py --output responses.jsonl
+# Label each response COMPLY or REFUSE with the judge
 python src/judge.py --splits train,val,test,heldout --input responses.jsonl --output judge_labels.jsonl
+# Save activations at every layer for three token positions
+python src/extract_acts.py --input responses.jsonl --output acts.pt
+# Train the probe on train, then score val, test, and heldout
+python src/probe.py --final --layer 29
+# Same for the majority, harmful-rule, and TF-IDF baselines
+python src/baselines.py --final
+# Per-example predictions and confusion matrices
+python src/predictions.py
+# Bootstrap confidence intervals
+python src/bootstrap.py
 ```
 
-`judge.py` labels only `train` and `val` by default. Outputs are written to `results/`.
+`judge.py` labels only `train` and `val` by default. Activations are written to `activations/` and everything else to `results/`. The steps from `probe.py` on run on CPU.

@@ -270,6 +270,11 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 
 ## History
 
+### 2026-11-06
+
+- Pinned `scikit-learn==1.9.1` in `requirements.txt`, the version used for the final runs.
+- Added the activation, probe, baseline, prediction, and bootstrap commands to the README's Running section.
+
 ### 2026-11-03
 
 - Added `src/baselines.py` and ran development on val (`results/baselines_val.json`).
