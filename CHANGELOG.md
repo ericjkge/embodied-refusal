@@ -20,6 +20,7 @@ Last updated: 2026-11-03.
 | Confusion matrices | **Done.** Per-example predictions in `results/predictions_final.jsonl`, matrices and per-class precision/recall in `results/confusion_final.json` |
 | Confidence intervals | **Done.** `src/bootstrap.py`, in `results/bootstrap.json` |
 | Manual review of held-out examples | **Done.** Anchal labeled 30 blind (`results/review_labels.jsonl`). Analysis below |
+| Report | **Done.** `final_report.pdf` |
 
 ## Next steps
 
@@ -269,6 +270,10 @@ Eric hand-labeled `results/hand_labels.jsonl` blind to the judge, on the 100 res
 - **Lightly reviewed prompts:** Eric skimmed the 300 pairs, and most have not been through the target model yet.
 
 ## History
+
+### 2026-11-08
+
+- Added the final report as `final_report.pdf`.
 
 ### 2026-11-06
 
